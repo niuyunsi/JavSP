@@ -6,7 +6,7 @@ ENV PATH=/root/.local/bin:$PATH
 RUN pip install pipx && \
     pipx ensurepath && \
     pipx install poetry
-RUN apt update && apt install -y git
+RUN apt update && apt install -y git cmake build-essential
 
 COPY . .
 
@@ -16,7 +16,7 @@ RUN poetry self add poetry-dynamic-versioning && \
     rm -rf /app/.git
 
 
-FROM python:3.12-slim as runner
+FROM python:3.12-slim AS runner
 
 WORKDIR /app
 

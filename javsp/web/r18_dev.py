@@ -83,11 +83,11 @@ def parse_data(movie: MovieInfo):
     # 基本信息
     movie.url = f'{base_url}/videos/vod/movies/detail/-/combined={data.get("content_id", movie.dvdid)}'
     movie.dvdid = data.get("dvd_id") or movie.dvdid
-    movie.title = data.get("title_en", "")
+    movie.title = data.get("title_ja") or data.get("title_en") or ""
 
     # 发行信息
-    movie.producer = data.get("maker_name_en")
-    movie.publisher = data.get("maker_name_en")
+    movie.producer = data.get("maker_name_ja") or data.get("maker_name_en") or ""
+    movie.publisher = data.get("maker_name_ja") or data.get("maker_name_en") or ""
 
     # 发布日期
     release_date = data.get("release_date")
@@ -104,21 +104,21 @@ def parse_data(movie: MovieInfo):
     if directors:
         director_names = []
         for director in directors:
-            name = director.get("name_romaji", "")
+            name = director.get("name_kanji") or director.get("name_romaji") or ""
             if name:
                 director_names.append(name)
         if director_names:
             movie.director = ", ".join(director_names)
 
     # 系列
-    movie.serial = data.get("series_name_en")
+    movie.serial = data.get("series_name_ja") or data.get("series_name_en") or ""
 
     # 分类/类型
     categories = data.get("categories", [])
     if categories:
         genres = []
         for category in categories:
-            genre_name = category.get("name_en", "")
+            genre_name = category.get("name_ja") or category.get("name_en") or ""
             if genre_name and genre_name not in genres:
                 genres.append(genre_name)
         movie.genre = genres if genres else None
@@ -129,7 +129,7 @@ def parse_data(movie: MovieInfo):
         actress_names = []
         actress_pics = {}
         for actress in actresses:
-            name = actress.get("name_romaji", "")
+            name = actress.get("name_kanji") or actress.get("name_romaji") or ""
             if name:
                 actress_names.append(name)
                 # 演员头像

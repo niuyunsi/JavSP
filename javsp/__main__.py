@@ -513,7 +513,7 @@ def RunNormalMode(all_movies):
                 scrape_interval = Cfg().summarizer.extra_covers.scrap_interval.total_seconds()
                 inner_bar.set_description('下载额外的封面')
                 if movie.info.extra_covers:
-                    extracoverdir = movie.save_dir + f"/{Cfg().summarizer.extra_covers.folder_pattern()}"
+                    extracoverdir = movie.save_dir + f"/{Cfg().summarizer.extra_covers.folder_pattern}"
                     os.mkdir(extracoverdir)
                     for (id, pic_url) in enumerate(movie.info.extra_covers):
                         inner_bar.set_description(f"Downloading extracover {id} from url: {pic_url}")

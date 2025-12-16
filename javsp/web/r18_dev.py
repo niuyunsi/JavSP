@@ -82,7 +82,8 @@ def parse_data(movie: MovieInfo):
 
     # 基本信息
     movie.url = f'{base_url}/videos/vod/movies/detail/-/combined={data.get("content_id", movie.dvdid)}'
-    movie.dvdid = data.get("dvd_id") or movie.dvdid
+    movie.dvdid = data.get("dvd_id") or ""
+    movie.cid = data.get("content_id") or ""
     movie.title = data.get("title_ja") or data.get("title_en") or ""
 
     # 发行信息

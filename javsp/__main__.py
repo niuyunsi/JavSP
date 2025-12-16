@@ -509,6 +509,31 @@ def RunNormalMode(all_movies):
                         time.sleep(scrape_interval)
                 check_step(True)
 
+            if Cfg().summarizer.extra_covers.enabled:
+                scrape_interval = Cfg().summarizer.extra_covers.scrap_interval.total_seconds()
+                inner_bar.set_description('下载额外的封面')
+                if movie.info.extra_covers:
+                    extracoverdir = movie.save_dir + f"/{Cfg().summarizer.extra_covers.extra_covers_folder_pattern()}"
+                    os.mkdir(extracoverdir)
+                    for (id, pic_url) in enumerate(movie.info.extra_covers):
+                        inner_bar.set_description(f"Downloading extracover {id} from url: {pic_url}")
+                                                                                                                                
+                        cover_destination = f"{extracoverdir}/{id}.png"
+                        try:
+                            info = download(pic_url, cover_destination)
+                            if valid_pic(cover_destination):
+                                filesize = get_fmt_size(pic_path)
+                                width, height = get_pic_size(pic_path)
+                                elapsed = time.strftime("%M:%S", time.gmtime(info['elapsed']))
+                                speed = get_fmt_size(info['rate']) + '/s'
+                                logger.info(f"已下载额外的封面{pic_url} {id}.png: {width}x{height}, {filesize} [{elapsed}, {speed}]")
+                            else:
+                                check_step(False, f"下载额外的封面{id}: {pic_url}失败")
+                        except:
+                            check_step(False, f"下载额外的封面{id}: {pic_url}失败")
+                        time.sleep(scrape_interval)
+                check_step(True)
+
             inner_bar.set_description('写入NFO')
             write_nfo(movie.info, movie.nfo_file)
             check_step(True)

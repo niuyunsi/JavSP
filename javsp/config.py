@@ -101,6 +101,7 @@ class MovieInfoField(str, Enum):
     publish_date = 'publish_date'
     preview_pics = 'preview_pics'
     preview_video = 'preview_video'
+    extra_covers = 'extra_covers'
 
 class UseJavDBCover(str, Enum):
     yes = "yes"

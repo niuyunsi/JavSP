@@ -52,6 +52,7 @@ class MovieInfo:
         self.publish_date = None    # 发布日期
         self.preview_pics = None    # 预览图片（URL）
         self.preview_video = None   # 预览视频（URL）
+        self.extra_covers = None    # 额外的封面图片（URL）
 
         if from_file:
             if os.path.isfile(from_file):

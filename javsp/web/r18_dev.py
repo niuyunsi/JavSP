@@ -155,6 +155,12 @@ def parse_data(movie: MovieInfo):
                 preview_pics.append(image_url)
         movie.preview_pics = preview_pics if preview_pics else None
 
+    # 额外的封面图片
+    extra_covers = []
+    front_cover = get_front_cover(data)
+    if front_cover:
+        extra_covers.append(front_cover)
+    movie.extra_covers = extra_covers if extra_covers else None
 
 def parse_clean_data(movie: MovieInfo):
     """解析指定番号的影片数据并进行清洗"""
@@ -171,3 +177,24 @@ def parse_clean_data(movie: MovieInfo):
             )
         # 移除多余的空格
         movie.title = re.sub(r"\s+", " ", movie.title).strip()
+
+
+def get_front_cover(data: dict) -> str | None:
+    if data["service_code"] in ["mono"]:
+        return (
+            "https://awsimgsrc.dmm.com/dig/mono/movie/"
+            + data["content_id"]
+            + "/"
+            + data["content_id"]
+            + "ps.jpg"
+        )
+    if data["service_code"] in ["digital"]:
+        return (
+            "https://awsimgsrc.dmm.com/dig/digital/video/"
+            + data["content_id"]
+            + "/"
+            + data["content_id"]
+            + "ps.jpg"
+        )
+    else:
+        return None

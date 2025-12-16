@@ -68,7 +68,11 @@ def get_movie_data_by_content_id(content_id: str):
 def parse_data(movie: MovieInfo):
     """解析指定番号的影片数据"""
     try:
-        data = get_movie_data(movie.dvdid)
+        data = None
+        if movie.cid is not None:
+            data = get_movie_data_by_content_id(movie.cid)
+        elif movie.dvdid is not None:
+            data = get_movie_data(movie.dvdid)
         if not data:
             raise MovieNotFoundError(__name__, movie.dvdid)
     except requests.exceptions.ConnectionError:

@@ -147,6 +147,11 @@ class ExtraFanartSummarize(BaseConfig):
     enabled: bool
     scrap_interval: Duration
 
+class ExtraCoverSummarize(BaseConfig):
+    enabled: bool
+    scrap_interval: Duration
+    folder_pattern: str
+
 class SlimefaceEngine(BaseConfig):
     name: Literal['slimeface']
 
@@ -173,6 +178,7 @@ class Summarizer(BaseConfig):
     cover: CoverSummarize
     fanart: FanartSummarize
     extra_fanarts: ExtraFanartSummarize
+    extra_covers: ExtraCoverSummarize
 
 class BaiduTranslateEngine(BaseConfig):
     name: Literal['baidu']
